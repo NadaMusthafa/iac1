@@ -6,11 +6,6 @@ on:
 jobs:
   terraform:
     name: 'Terraform'
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: '${{ secrets.ARM_SUBSCRIPTION_ID }}'
-      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     runs-on: ubuntu-latest
  
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -46,9 +41,9 @@ jobs:
            
     - name: azure login
       uses: azure/login@v1
-      env:
-        creds: '${{ env.ARM_SUBSCRIPTION_ID }}'
- 
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
     - name: 'Terraform Plan'
       uses: hashicorp/terraform-github-actions@master
       with:
